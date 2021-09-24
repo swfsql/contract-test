@@ -30,8 +30,8 @@ pub mod message {
             }
         }
         let args = Input { message };
-        let args = near_sdk::serde_json::to_vec(&args)
-            .expect("Failed to serialize the cross contract args using JSON.");
+        let args = near_sdk::borsh::BorshSerialize::try_to_vec(&args)
+            .expect("Failed to serialize the cross contract args using Borsh.");
         near_sdk::Promise::new(__account_id).function_call(
             "method_a".to_string(),
             args,
